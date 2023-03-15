@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    input{
+        margin-top: 10px;
+       margin-bottom: 10px;
+
+    }
+</style>
+<body>
+    <!-- 
+        Object : Đối tượng  ( kiểu dữ liệu phức tạp - );
+        tham chiếu:(reference) dữ liệu lưu ở bộ nhớ heap; bộ nhớ động : array, object, function
+        tham trị : primitive : dữ liệu lưu ở bộ nhớ stack bộ nhớ tĩnh : kiểu dữ liệu nguyên thuỷ
+        thuộc tính: property :
+        hành động : method (phương thức.)
+        vd: đối tượng con mèo:
+        có các đặc điểm:
+        màu lông: màu trắng;
+        màu mắt : đen;
+       giới tính: đực, cái;
+       có các hành động ,
+       kêu:
+       nhảy: 
+       cách khai báo đối tượng;
+     -->
+     <h2> quản lý sinh viên </h2>
+     <div class="container">
+        <label for="">Tên</label> <br>
+        <input id="name" type="text" placeholder="nhập tên"> <br> 
+        <label for="">MSV</label> <br>
+        <input id="msv" type="text" placeholder="nhập MSV"> <br>
+        <label for="">GIỚI TÍNH </label> <br>
+        <input id="gioiTinh" type="text" placeholder="nhập GIỚI TÍNH"> <br>
+        <label for="">QUÊ QUÁN </label> <br>
+        <input id="queQuan" type="text" placeholder="nhập QUÊ QUÁN "> <br>
+        <button onclick="saveInfo()"> Lưu </button>
+     </div>
+     <table border="1px" id="table">
+        <tr>
+            <td> ID </td>
+            <td> TÊN </td>
+            <td> MSV</td>
+            <td> Giới Tính </td>
+            <td> Quê Quán </td>
+        </tr>
+     </table>
+
+    <script>
+        //    /* 
+        //          tham chiếu :
+
+        //     */
+        //    let obj1={
+        //     name:"hoa",
+        //     name:"Huê",
+        //     name:"Quân",
+        //     myhobbies:{
+        //         xemPhim:"Nhà bà Nữ",
+        //     }
+        //    }
+        //     // CÁCH 1:   let obj2={...obj1} // spread
+        //     // CÁCH 2:  let obj2=Object.assign({},obj1);// dùng Object. assign();
+        //     //    CACHS 3: JSON
+        //    // bản chất đang gán địa chỉ của obj1 cho obj2;
+        //    let obj2=JSON.parse(JSON.stringify(obj1));
+        //    obj1.name="Hồng";
+        //    obj1.myhobbies.xemPhim="Nhà Bà Nam";// khi obj .name ="hồng " thì cái địa chỉ đấy đã thay đổi giá trị
+        //    console.log(obj2);
+        //    /* 
+        //    các cách clone object: 
+        //    deep clone (sâu); JSON.parse(JSON.stringify(obj1)); thuộc dạng deep clone 
+        //    shallow clone (nông); {...obj1 } được gọi là shallow clone, Object .assign()  
+        //    cách 1: toán tử spread
+        //    cachs 2: dùng Object.assign();
+        //    cách 3: chuyển về dạng JSON
+
+        //     */
+        // let person1 = {
+        //     name: "hồng",
+        //     age: 24
+        // }
+        // let person2 = {
+        //     name: "huy",
+        //     age: 24
+        // }
+        // let person3 = {
+        //     name: "đòn",
+        //     age: 24
+        // }
+        //  let person4 = {
+        //         name: "đòn",
+        //         age: 24
+        //     }
+            // function Person(name,age){
+            //     this.name=name;
+            //     this.age=age
+            // }
+            // let person1= new Person("huy",24);
+            // let person2 = new Person("đòn",21);
+            // console.log(person1);
+            // console.log(person2);
+            //  arrow function không có CONTEXT;
+            /* let student1={
+                name:"Ánh Linh",
+                age:24,
+                say:()=>{
+                    console.log(this);
+                    return this.name;
+                },
+                goodbye:function goodBye(){
+                    console.log("this trong goodbye", this);
+                    return this.name
+                }
+                
+            }
+            console.log(student1.say()); */
+            /* 
+            đối tượng . phương thức thì this đại diện cho đối tượng.
+             */
+            let listStudents=[];
+            function saveInfo() {
+                let name=document.getElementById("name").value;
+                let msv = document.getElementById("msv").value;
+                let gioiTinh = document.getElementById("gioiTinh").value;
+                let queQuan = document.getElementById("queQuan").value;
+                let nameStudent={
+                    id:1,
+                    ten:name,
+                    msv:msv,
+                    gioiTinh:gioiTinh,
+                    queQuan:queQuan,
+                }
+                listStudents.push(nameStudent);
+                console.log(listStudents);
+                renderListStudents();
+            }
+            function renderListStudents(){
+                let result=
+                `
+                    <tr>
+                        <td> ID </td>
+                        <td> TÊN </td>
+                        <td> MSV</td>
+                        <td> Giới Tính </td>
+                        <td> Quê Quán </td>
+                        <td> Sửa </td>
+                        <td> Xoá </td>
+
+                    </tr>
+                `;
+                for (let i = 0; i < listStudents.length; i++) {
+                   result+=`
+                        <tr>
+                            <td> ${i+1} </td>
+                            <td> ${listStudents[i].ten} </td>
+                            <td> ${listStudents[i].msv} </td>
+                            <td> ${listStudents[i].gioiTinh} </td>
+                            <td> ${listStudents[i].queQuan} </td>
+                             <td> edit </td>
+                             <td> delete </td>
+
+                        </tr>
+                   `
+                    
+                }
+                document.getElementById("table").innerHTML=result;
+            }
+    </script>
+
+</body>
+
+</html>
