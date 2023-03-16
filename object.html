@@ -54,77 +54,7 @@
      </table>
 
     <script>
-        //    /* 
-        //          tham chiếu :
-
-        //     */
-        //    let obj1={
-        //     name:"hoa",
-        //     name:"Huê",
-        //     name:"Quân",
-        //     myhobbies:{
-        //         xemPhim:"Nhà bà Nữ",
-        //     }
-        //    }
-        //     // CÁCH 1:   let obj2={...obj1} // spread
-        //     // CÁCH 2:  let obj2=Object.assign({},obj1);// dùng Object. assign();
-        //     //    CACHS 3: JSON
-        //    // bản chất đang gán địa chỉ của obj1 cho obj2;
-        //    let obj2=JSON.parse(JSON.stringify(obj1));
-        //    obj1.name="Hồng";
-        //    obj1.myhobbies.xemPhim="Nhà Bà Nam";// khi obj .name ="hồng " thì cái địa chỉ đấy đã thay đổi giá trị
-        //    console.log(obj2);
-        //    /* 
-        //    các cách clone object: 
-        //    deep clone (sâu); JSON.parse(JSON.stringify(obj1)); thuộc dạng deep clone 
-        //    shallow clone (nông); {...obj1 } được gọi là shallow clone, Object .assign()  
-        //    cách 1: toán tử spread
-        //    cachs 2: dùng Object.assign();
-        //    cách 3: chuyển về dạng JSON
-
-        //     */
-        // let person1 = {
-        //     name: "hồng",
-        //     age: 24
-        // }
-        // let person2 = {
-        //     name: "huy",
-        //     age: 24
-        // }
-        // let person3 = {
-        //     name: "đòn",
-        //     age: 24
-        // }
-        //  let person4 = {
-        //         name: "đòn",
-        //         age: 24
-        //     }
-            // function Person(name,age){
-            //     this.name=name;
-            //     this.age=age
-            // }
-            // let person1= new Person("huy",24);
-            // let person2 = new Person("đòn",21);
-            // console.log(person1);
-            // console.log(person2);
-            //  arrow function không có CONTEXT;
-            /* let student1={
-                name:"Ánh Linh",
-                age:24,
-                say:()=>{
-                    console.log(this);
-                    return this.name;
-                },
-                goodbye:function goodBye(){
-                    console.log("this trong goodbye", this);
-                    return this.name
-                }
-                
-            }
-            console.log(student1.say()); */
-            /* 
-            đối tượng . phương thức thì this đại diện cho đối tượng.
-             */
+       
             let listStudents=[];
             function saveInfo() {
                 let name=document.getElementById("name").value;
@@ -138,8 +68,20 @@
                     gioiTinh:gioiTinh,
                     queQuan:queQuan,
                 }
+                let flag=JSON.parse(localStorage.getItem("flag"));
+                if(flag != null){
+                    listStudents.splice(flag,1,nameStudent);
+                    localStorage.removeItem("flag");
+                    renderListStudents();
+                   return;
+                }
                 listStudents.push(nameStudent);
-                console.log(listStudents);
+                // console.log(listStudents);
+               document.getElementById("name").value="";
+               document.getElementById("msv").value="";
+               document.getElementById("gioiTinh").value="";
+               document.getElementById("queQuan").value="";
+
                 renderListStudents();
             }
             function renderListStudents(){
@@ -153,7 +95,6 @@
                         <td> Quê Quán </td>
                         <td> Sửa </td>
                         <td> Xoá </td>
-
                     </tr>
                 `;
                 for (let i = 0; i < listStudents.length; i++) {
@@ -164,8 +105,8 @@
                             <td> ${listStudents[i].msv} </td>
                             <td> ${listStudents[i].gioiTinh} </td>
                             <td> ${listStudents[i].queQuan} </td>
-                             <td> edit </td>
-                             <td> delete </td>
+                             <td onclick= edit(${i})> edit </td>
+                             <td onclick= deleteUser(${i})> delete </td>
 
                         </tr>
                    `
@@ -173,6 +114,17 @@
                 }
                 document.getElementById("table").innerHTML=result;
             }
+            function edit(id){
+                document.getElementById("name").value = listStudents[id].ten;
+                document.getElementById("msv").value =  listStudents[id].msv;
+                document.getElementById("gioiTinh").value =  listStudents[id].gioiTinh;
+                document.getElementById("queQuan").value = listStudents[id].queQuan;
+                localStorage.setItem("flag",id)
+            }
+             function deleteUser(id) {
+                  listStudents.splice(id,1);
+                  renderListStudents();
+                }
     </script>
 
 </body>
